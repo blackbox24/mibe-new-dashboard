@@ -1,0 +1,136 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+ 
+    --radius: 0.5rem;
+    
+    --sidebar-background: 212 30% 15%;
+    --sidebar-foreground: 213 31% 95%;
+    --sidebar-primary: 211 92% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 213 95% 30%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 212 30% 25%;
+    --sidebar-ring: 211 92% 60%;
+  }
+ 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+ 
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+ 
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+ 
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom styles for the project */
+.listing-grid {
+  @apply grid gap-6 sm:grid-cols-2 lg:grid-cols-3;
+}
+
+/* Print styles for receipts and invoices */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  
+  .dialog-content,
+  .dialog-content * {
+    visibility: visible;
+  }
+  
+  .dialog-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  
+  .dialog-footer,
+  .dialog-close {
+    display: none !important;
+  }
+}
+
+/* Add responsive styles for different screen sizes */
+@media (max-width: 640px) {
+  h1 {
+    @apply text-2xl;
+  }
+  
+  .dashboard-layout {
+    @apply flex-col;
+  }
+}
+
+/* Improve form accessibility */
+input, textarea, select, button {
+  @apply focus:outline-none focus:ring-2 focus:ring-travel-500 focus:border-transparent;
+}
+
+/* Add animation to cards */
+.card {
+  @apply transition-all duration-200 hover:shadow-md;
+}
