@@ -296,7 +296,7 @@ const GiftsPage = () => {
               title={gift.title}
               description={`${gift.description}`}
               badges={[
-                gift.status,
+                gift.gifttypes,
                 gift.published === "1" ? "Published" : "Unpublished",
               ]}
               image={

@@ -1,14 +1,10 @@
-
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@/components/ui/sonner';
-import {api, base_url} from '@/services/apiConfig';
+import { api } from '@/services/apiConfig';
 
 interface User {
-  // id: number;
   email: string;
-  // firstName: string;
-  // lastName: string;
   role: 'user' | 'admin';
 }
 
@@ -34,8 +30,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
-  
-  // Check if user is already logged in from localStorage
+
   useEffect(() => {
     const storedUser = localStorage.getItem('travelUser');
     if (storedUser) {
@@ -44,6 +39,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } catch (error) {
         console.error('Failed to parse stored user:', error);
         localStorage.removeItem('travelUser');
+        localStorage.removeItem('travelUserToken');
       }
     }
     setIsLoading(false);
@@ -52,30 +48,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string) => {
     try {
       setIsLoading(true);
-
-      const response = await api.post(`${base_url}users/login`,{email,password});
-      console.log(response)
-      // Hardcoded authentication for demo
-      // email === 'admin@example.com' && password === 'password'
-      if (response.status === 200) {
-        const data = await response.data;
+      const response = await api.post('/users/login', { email, password }); // Use relative URL
+      const data = response.data; // No await needed
+      if (response.status >= 200 && response.status < 300) {
         const user: User = {
-          // id: 1,
-          email,
-          role: 'admin'
+          email: data.email || email, // Prefer API response, fallback to input
+          role: data.role || 'user', // Use role from API
         };
-        
         setUser(user);
         localStorage.setItem('travelUser', JSON.stringify(user));
-        localStorage.setItem("travelUserToken",data?.token)
+        localStorage.setItem('travelUserToken', data.token);
         toast.success('Login successful!');
         navigate('/dashboard');
       } else {
         toast.error('Invalid credentials');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Login error:', error);
-      toast.error('An error occurred during login');
+      toast.error(error.response?.data?.message || 'An error occurred during login');
     } finally {
       setIsLoading(false);
     }
@@ -84,7 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     setUser(null);
     localStorage.removeItem('travelUser');
-    localStorage.removeItem("travelUserToken")
+    localStorage.removeItem('travelUserToken');
     toast.info('You have been logged out');
     navigate('/login');
   };

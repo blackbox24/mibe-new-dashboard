@@ -17,7 +17,7 @@ export interface Flight {
 
 const token = localStorage.getItem("travelUserToken");
 export const getFlights = async (): Promise<Flight[]> => {
-    const response = await api.get(`${base_url}flights/`);
+    const response = await api.get(`/flights/`);
     if (response.status !== 200) {
         throw new Error('Failed to fetch flights');
     }
@@ -28,7 +28,7 @@ export const getFlightsWithPagination = async (
   page: number = 1,
   limit: number = 10
 ): Promise<{ flights: Flight[]; pagination: { page: number; limit: number; totalPages: number; totalRecords: number } }> => {
-  const response = await api.get(`${base_url}flights/paginated/?page=${page}&limit=${limit}`);
+  const response = await api.get(`/flights/paginated/?page=${page}&limit=${limit}`);
   if (response.status !== 200) {
     throw new Error("Failed to fetch flights with pagination");
   }
@@ -46,7 +46,7 @@ export const addFlight = async (flight: Omit<Flight, 'id'>): Promise<Flight> => 
         flight.published = "1";
     }
     const data = JSON.stringify(flight);
-    const response = await api.post(`${base_url}flights/`, data,{
+    const response = await api.post(`/flights/`, data,{
         headers:{
             "Content-Type":"application/json"
         }
@@ -58,7 +58,7 @@ export const addFlight = async (flight: Omit<Flight, 'id'>): Promise<Flight> => 
 };
 
 export const updateFlight = async (id: number, flight: Partial<Flight>): Promise<Flight> => {
-    const response = await api.put(`${base_url}flights/${id}`, {...flight},{
+    const response = await api.put(`/flights/${id}`, {...flight},{
         headers:{
             "Content-Type":"application/json"
         }
@@ -70,7 +70,7 @@ export const updateFlight = async (id: number, flight: Partial<Flight>): Promise
 };
 
 export const deleteFlight = async (id: number): Promise<void> => {
-    const response = await api.delete(`${base_url}flights/${id}`)
+    const response = await api.delete(`/flights/${id}`)
     if (response.status !== 204) {
         throw new Error('Failed to delete flight');
     }
@@ -78,7 +78,7 @@ export const deleteFlight = async (id: number): Promise<void> => {
 
 export const publishFlights = async(id: number, published: { published: string }): Promise<Flight> => {
     const data = JSON.stringify(published);
-    const response = await api.post(`${base_url}flights/published/${id}`,data,{
+    const response = await api.post(`/flights/published/${id}`,data,{
         headers:{
             "Content-Type":"application/json"
         }

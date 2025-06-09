@@ -18,7 +18,7 @@ export const getPartnerWithPagination = async (page: number = 1, limit: number =
     totalRecords: number;
   };
 }> => {
-  const response = await api.get(`${base_url}trustedby/paginated/?page=${page}&limit=${limit}`);
+  const response = await api.get(`/trustedby/paginated/?page=${page}&limit=${limit}`);
   if (response.status !== 200) {
     throw new Error('Failed to fetch partners with pagination');
   }
@@ -45,7 +45,7 @@ export const addPartner = async (
     }
   });
 
-  const response = await api.post(`${base_url}trustedby/`, formData);
+  const response = await api.post(`/trustedby/`, formData);
 
   if (response.status !== 201) {
     throw new Error('Failed to add partner');
@@ -71,7 +71,7 @@ export const updatePartner = async (
     }
   });
 
-  const response = await api.put(`${base_url}trustedby/${id}`, formData);
+  const response = await api.put(`/trustedby/${id}`, formData);
 
   if (response.status !== 200) {
     throw new Error('Failed to update partner');
@@ -82,7 +82,7 @@ export const updatePartner = async (
 
 // Deletes an partner from the API
 export const deletePartner = async (id: number): Promise<void> => {
-  const response = await api.delete(`${base_url}trustedby/${id}`);
+  const response = await api.delete(`/trustedby/${id}`);
 
   if (response.status !== 200) {
     throw new Error('Failed to delete partner');
@@ -91,7 +91,7 @@ export const deletePartner = async (id: number): Promise<void> => {
 
 export const publishPartner = async(id: number, published: { published: string }): Promise<Partner> => {
     const data = JSON.stringify(published);
-    const response = await api.post(`${base_url}trustedby/published/${id}`,data,{
+    const response = await api.post(`/trustedby/published/${id}`,data,{
         headers:{
             "Content-Type":"application/json"
         }

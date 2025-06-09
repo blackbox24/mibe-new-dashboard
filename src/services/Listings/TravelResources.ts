@@ -21,7 +21,7 @@ export const getTravelResourceWithPagination = async (resource: string ,page: nu
     totalRecords: number;
   };
 }> => {
-  const response = await api.get(`${base_url}travel-resources/paginated/?page=${page}&limit=${limit}&filter=${resource}`);
+  const response = await api.get(`/travel-resources/paginated/?page=${page}&limit=${limit}&filter=${resource}`);
   if (response.status !== 200) {
     throw new Error('Failed to fetch Guides with pagination');
   }
@@ -50,7 +50,7 @@ export const addResource = async (
     }
   });
 
-  const response = await api.post(`${base_url}travel-resources/`, formData);
+  const response = await api.post(`/travel-resources/`, formData);
 
   if (response.status !== 201) {
     throw new Error('Failed to add Guides');
@@ -78,7 +78,7 @@ export const updateResource = async (
     }
   });
 
-  const response = await api.put(`${base_url}travel-resources/${id}`, formData);
+  const response = await api.put(`/travel-resources/${id}`, formData);
 
   if (response.status !== 200) {
     throw new Error('Failed to update Guides');
@@ -89,7 +89,7 @@ export const updateResource = async (
 
 // Deletes an TravelResource from the API
 export const deleteResource = async (id: number): Promise<void> => {
-  const response = await api.delete(`${base_url}travel-resources/${id}`);
+  const response = await api.delete(`/travel-resources/${id}`);
 
   if (response.status !== 200) {
     throw new Error('Failed to delete resource');
@@ -98,7 +98,7 @@ export const deleteResource = async (id: number): Promise<void> => {
 
 export const publishTravelResources = async(id: number, published: { published: string }): Promise<TravelResource> => {
     const data = JSON.stringify(published);
-    const response = await api.post(`${base_url}travel-resources/published/${id}`,data,{
+    const response = await api.post(`/travel-resources/published/${id}`,data,{
       headers:{
         "Content-Type":"application/json"
       }

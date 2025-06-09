@@ -18,7 +18,7 @@ export interface Package {
 
 // Fetch all packages from the API
 export const getPackages = async (): Promise<Package[]> => {
-    const response = await api.get(`${base_url}packages/`);
+    const response = await api.get(`/packages/`);
     if (response.status !== 200) {
         throw new Error("Failed to fetch packages");
     }
@@ -45,7 +45,7 @@ export const addPackage = async (
         }
     });
 
-    const response = await api.post(`${base_url}packages/`, formData);
+    const response = await api.post(`/packages/`, formData);
 
     if (response.status !== 201) {
         throw new Error("Failed to add package");
@@ -66,7 +66,7 @@ export const getPackagesWithPagination = async (
         totalRecords: number;
     };
 }> => {
-    const response = await api.get(`${base_url}packages/?page=${page}&limit=${limit}`
+    const response = await api.get(`/packages/?page=${page}&limit=${limit}`
     );
     if (response.status !== 200) {
         throw new Error("Failed to fetch packages with pagination");
@@ -99,7 +99,7 @@ export const updatePackage = async (
         }
     });
 
-    const response = await api.put(`${base_url}packages/${id}/`, formData);
+    const response = await api.put(`/packages/${id}/`, formData);
     if (response.status !== 200) {
         throw new Error("Failed to update package");
     }
@@ -108,7 +108,7 @@ export const updatePackage = async (
 
 // Delete a package from the API
 export const deletePackage = async (id: number): Promise<void> => {
-    const response = await api.delete(`${base_url}packages/${id}/`);
+    const response = await api.delete(`/packages/${id}/`);
 
     if (response.status !== 200) {
         throw new Error("Failed to delete package");
@@ -117,7 +117,7 @@ export const deletePackage = async (id: number): Promise<void> => {
 
 export const publishPackage = async(id: number, published: { published: string }): Promise<Package> => {
     const data = JSON.stringify(published);
-    const response = await api.post(`${base_url}packages/published/${id}`,data,{
+    const response = await api.post(`/packages/published/${id}`,data,{
         headers:{
             "Content-Type":"application/json"
         }

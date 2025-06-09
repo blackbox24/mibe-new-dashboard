@@ -10,7 +10,7 @@ export interface Facilitation{
 }
 
 export const getFacilitationServices = async (): Promise<Facilitation[]> => {
-    const response = await api.get(`${base_url}facilitations/`);
+    const response = await api.get(`/facilitations/`);
     if (response.status !== 200) {
         throw new Error("Failed to fetch facilitations");
     }
@@ -30,7 +30,7 @@ export const getFacilitationServicesWithPagination = async (
         totalRecords: number;
     };
 }> => {
-    const response = await api.get(`${base_url}facilitations/?page=${page}&limit=${limit}`);
+    const response = await api.get(`/facilitations/?page=${page}&limit=${limit}`);
     if (response.status !== 200) {
         throw new Error("Failed to fetch facilitations with pagination");
     }
@@ -58,7 +58,7 @@ export const addFacilitationService = async (facilitation: Omit<Facilitation, 'i
         }
     });
 
-    const response = await api.post(`${base_url}facilitations/`, formData);
+    const response = await api.post(`/facilitations/`, formData);
 
     if (response.status !== 201) {
         throw new Error("Failed to add facilitation");
@@ -84,7 +84,7 @@ export const updateFacilitationService = async (id: number, facilitation: Omit<F
         }
     });
 
-    const response = await api.put(`${base_url}facilitations/${id}/`, formData);
+    const response = await api.put(`/facilitations/${id}/`, formData);
     if (response.status !== 200) {
         throw new Error("Failed to update facilitation");
     }
@@ -92,7 +92,7 @@ export const updateFacilitationService = async (id: number, facilitation: Omit<F
 };
 
 export const deleteFacilitationService = async (id: number): Promise<void> => {
-    const response = await api.delete(`${base_url}facilitations/${id}/`);
+    const response = await api.delete(`/facilitations/${id}/`);
 
     if (response.status !== 200) {
         throw new Error("Failed to delete facilitation");
@@ -102,7 +102,7 @@ export const deleteFacilitationService = async (id: number): Promise<void> => {
 
 export const publishFacilitation = async(id: number, published: { published: string }): Promise<Facilitation> => {
     const data = JSON.stringify(published);
-    const response = await api.post(`${base_url}facilitations/published/${id}`,data,{
+    const response = await api.post(`/facilitations/published/${id}`,data,{
         headers:{
             "Content-Type":"application/json"
         }

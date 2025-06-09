@@ -23,7 +23,7 @@ export const getGiftCardWithPagination = async (page: number = 1, limit: number 
     totalRecords: number;
   };
 }> => {
-  const response = await api.get(`${base_url}giftcards/?page=${page}&limit=${limit}`);
+  const response = await api.get(`/giftcards/?page=${page}&limit=${limit}`);
   if (response.status !== 200) {
     throw new Error('Failed to fetch records with pagination');
   }
@@ -50,7 +50,7 @@ export const addGiftCard = async (
     }
   });
 
-  const response = await api.post(`${base_url}giftcards/`, formData);
+  const response = await api.post(`/giftcards/`, formData);
 
   if (response.status !== 201) {
     throw new Error('Failed to add GiftCard');
@@ -76,7 +76,7 @@ export const updateGiftCard = async (
     }
   });
 
-  const response = await api.put(`${base_url}giftcards/${id}`, formData);
+  const response = await api.put(`/giftcards/${id}`, formData);
 
   if (response.status !== 200) {
     throw new Error('Failed to update GiftCard');
@@ -87,7 +87,7 @@ export const updateGiftCard = async (
 
 // Deletes an GiftCard from the API
 export const deleteGiftcard = async (id: number): Promise<void> => {
-  const response = await api.delete(`${base_url}giftcards/${id}`);
+  const response = await api.delete(`/giftcards/${id}`);
 
   if (response.status !== 200) {
     throw new Error('Failed to delete GiftCard');
@@ -96,7 +96,7 @@ export const deleteGiftcard = async (id: number): Promise<void> => {
 
 export const publishGiftCard = async(id: number, published: { published: string }): Promise<GiftCard> => {
     const data = JSON.stringify(published);
-    const response = await api.post(`${base_url}giftcards/publish/${id}`,data,{
+    const response = await api.post(`/giftcards/publish/${id}`,data,{
         headers:{
             "Content-Type":"application/json"
         }

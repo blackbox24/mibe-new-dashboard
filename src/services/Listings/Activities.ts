@@ -25,7 +25,7 @@ export const getActivitiesWithPagination = async (
       totalRecords: number;
   };
 }> => {
-  const response = await api.get(`${base_url}activities/?page=${page}&limit=${limit}`);
+  const response = await api.get(`/activities/?page=${page}&limit=${limit}`);
   if (response.status !== 200) {
     throw new Error('Failed to fetch activities');
   }
@@ -44,7 +44,7 @@ export const addActivity = async (activity: Omit<Activity, 'id'>): Promise<Activ
       formData.append(key, value as string | Blob);
     }
   });
-  const response = await api.post(`${base_url}activities/`, formData);
+  const response = await api.post(`/activities/`, formData);
   if (response.status !== 201) {
     throw new Error('Failed to add activity');
   }
@@ -59,7 +59,7 @@ export const updateActivity = async (id: number, activity: Partial<Activity>): P
       formData.append(key, value as string | Blob);
     }
   });
-  const response = await api.put(`${base_url}activities/${id}`, formData);
+  const response = await api.put(`/activities/${id}`, formData);
   if (response.status !== 200) {
     throw new Error('Failed to update activity');
   }
@@ -67,7 +67,7 @@ export const updateActivity = async (id: number, activity: Partial<Activity>): P
 };
 
 export const deleteActivity = async (id: number): Promise<void> => {
-  const response = await api.delete(`${base_url}activities/${id}`);
+  const response = await api.delete(`/activities/${id}`);
   if (response.status !== 200) {
     throw new Error('Failed to delete activity');
   }
@@ -75,7 +75,7 @@ export const deleteActivity = async (id: number): Promise<void> => {
 
 export const publishActivity = async(id: number, published: { published: string }): Promise<Activity> => {
     const data = JSON.stringify(published);
-    const response = await api.post(`${base_url}activities/published/${id}`,data,{
+    const response = await api.post(`/activities/published/${id}`,data,{
         headers:{
             "Content-Type":"application/json"
         }

@@ -10,7 +10,7 @@ export interface Story {
 
 // Fetches a list of story from the API
 export const getStory = async (): Promise<Story[]> => {
-  const response = await api(`${base_url}story/`);
+  const response = await api(`/story/`);
   if (response.status !== 200) {
     throw new Error('Failed to fetch story');
   }
@@ -26,7 +26,7 @@ export const getStoryWithPagination = async (page: number = 1, limit: number = 1
     totalRecords: number;
   };
 }> => {
-  const response = await api.get(`${base_url}giftcards/paginated/?page=${page}&limit=${limit}`);
+  const response = await api.get(`/giftcards/paginated/?page=${page}&limit=${limit}`);
   if (response.status !== 200) {
     throw new Error('Failed to fetch story with pagination');
   }
@@ -53,7 +53,7 @@ export const addGiftCard = async (
     }
   });
 
-  const response = await api.post(`${base_url}giftcards/`, formData);
+  const response = await api.post(`/giftcards/`, formData);
 
   if (response.status !== 201) {
     throw new Error('Failed to add Story');
@@ -79,7 +79,7 @@ export const updateAccommodation = async (
     }
   });
 
-  const response = await api.put(`${base_url}giftcards/${id}`, formData);
+  const response = await api.put(`/giftcards/${id}`, formData);
 
   if (response.status !== 200) {
     throw new Error('Failed to update Story');
@@ -90,7 +90,7 @@ export const updateAccommodation = async (
 
 // Deletes an Story from the API
 export const deleteAccommodation = async (id: number): Promise<void> => {
-  const response = await api.delete(`${base_url}giftcards/${id}`);
+  const response = await api.delete(`/giftcards/${id}`);
 
   if (response.status !== 200) {
     throw new Error('Failed to delete Story');
@@ -99,7 +99,7 @@ export const deleteAccommodation = async (id: number): Promise<void> => {
 
 export const publishAccommodation = async(id: number, published: { published: string }): Promise<Story> => {
     const data = JSON.stringify(published);
-    const response = await api.post(`${base_url}giftcards/published/${id}`,data,{
+    const response = await api.post(`/giftcards/published/${id}`,data,{
         headers:{
             "Content-Type":"application/json"
         }

@@ -17,7 +17,7 @@ export interface Vehicle {
 
 // Fetch the list of vehicles from the API
 export const getVehicles = async (): Promise<Vehicle[]> => {
-  const response = await api.get(`${base_url}vehicles/`);
+  const response = await api.get(`/vehicles/`);
   if (response.status !== 200) {
     throw new Error("Failed to fetch vehicles");
   }
@@ -38,7 +38,7 @@ export const getVehiclesWithPagination = async (
   };
 }> => {
   const response = await api.get(
-    `${base_url}vehicles/?page=${page}&limit=${limit}`
+    `/vehicles/?page=${page}&limit=${limit}`
   );
   if (response.status !== 200) {
     throw new Error("Failed to fetch vehicles with pagination");
@@ -66,7 +66,7 @@ export const addVehicle = async (
   });
 
   // Send a POST request to add the vehicle
-  const response = await api.post(`${base_url}vehicles/`, formData);
+  const response = await api.post(`/vehicles/`, formData);
 
   if (response.status !== 201) {
     throw new Error("Failed to add vehicle");
@@ -92,7 +92,7 @@ export const updateVehicle = async (
   });
 
   // Send a PUT request to update the vehicle
-  const response = await api.put(`${base_url}vehicles/${id}`, formData);
+  const response = await api.put(`/vehicles/${id}`, formData);
 
   if (response.status !== 200) {
     throw new Error("Failed to update vehicle");
@@ -103,7 +103,7 @@ export const updateVehicle = async (
 // Delete a vehicle from the API
 export const deleteVehicle = async (id: number): Promise<void> => {
   // Send a DELETE request to remove the vehicle
-  const response = await api.delete(`${base_url}vehicles/${id}`)
+  const response = await api.delete(`/vehicles/${id}`)
 
   if (response.status !== 200) {
     throw new Error("Failed to delete vehicle");
@@ -112,7 +112,7 @@ export const deleteVehicle = async (id: number): Promise<void> => {
 
 export const publishVehicle = async(id: number, published: { published: string }): Promise<Vehicle> => {
     const data = JSON.stringify(published);
-    const response = await api.post(`${base_url}vehicles/published/${id}`,data,{
+    const response = await api.post(`/vehicles/published/${id}`,data,{
         headers:{
             "Content-Type":"application/json"
         }

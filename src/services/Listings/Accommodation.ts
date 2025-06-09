@@ -18,7 +18,7 @@ export interface Accommodation {
 
 // Fetches a list of accommodations from the API
 export const getAccommodations = async (): Promise<Accommodation[]> => {
-  const response = await api(`${base_url}accommodations/`);
+  const response = await api(`/accommodations/`);
   if (response.status !== 200) {
     throw new Error('Failed to fetch accommodations');
   }
@@ -34,7 +34,7 @@ export const getAccommodationsWithPagination = async (page: number = 1, limit: n
     totalRecords: number;
   };
 }> => {
-  const response = await api.get(`${base_url}accommodations/paginated/?page=${page}&limit=${limit}`);
+  const response = await api.get(`/accommodations/paginated/?page=${page}&limit=${limit}`);
   if (response.status !== 200) {
     throw new Error('Failed to fetch accommodations with pagination');
   }
@@ -61,7 +61,7 @@ export const addAccommodation = async (
     }
   });
 
-  const response = await api.post(`${base_url}accommodations/`, formData);
+  const response = await api.post(`/accommodations/`, formData);
 
   if (response.status !== 201) {
     throw new Error('Failed to add accommodation');
@@ -87,7 +87,7 @@ export const updateAccommodation = async (
     }
   });
 
-  const response = await api.put(`${base_url}accommodations/${id}`, formData);
+  const response = await api.put(`/accommodations/${id}`, formData);
 
   if (response.status !== 200) {
     throw new Error('Failed to update accommodation');
@@ -98,7 +98,7 @@ export const updateAccommodation = async (
 
 // Deletes an accommodation from the API
 export const deleteAccommodation = async (id: number): Promise<void> => {
-  const response = await api.delete(`${base_url}accommodations/${id}`);
+  const response = await api.delete(`/accommodations/${id}`);
 
   if (response.status !== 200) {
     throw new Error('Failed to delete accommodation');
@@ -107,7 +107,7 @@ export const deleteAccommodation = async (id: number): Promise<void> => {
 
 export const publishAccommodation = async(id: number, published: { published: string }): Promise<Accommodation> => {
     const data = JSON.stringify(published);
-    const response = await api.post(`${base_url}accommodations/published/${id}`,data,{
+    const response = await api.post(`/accommodations/published/${id}`,data,{
         headers:{
             "Content-Type":"application/json"
         }

@@ -12,7 +12,7 @@ export interface Destination {
 
 
 export const getDestinations = async (): Promise<Destination[]> => {
-  const response = await api.get(`${base_url}destinations/`);
+  const response = await api.get(`/destinations/`);
   if (response.status !== 200) {
     throw new Error("Failed to fetch destinations");
   }
@@ -28,7 +28,7 @@ export const getDestinationsWithPagination = async (page: number = 1, limit: num
     totalRecords: number;
   };
 }> => {
-  const response = await api.get(`${base_url}destinations/paginated/?page=${page}&limit=${limit}`);
+  const response = await api.get(`/destinations/paginated/?page=${page}&limit=${limit}`);
   if (response.status !== 200) {
     throw new Error('Failed to fetch destinations with pagination');
   }
@@ -56,7 +56,7 @@ export const addDestination = async (
   });
 
   console.log(formData)
-  const response = await api.post(`${base_url}destinations/`, formData);
+  const response = await api.post(`/destinations/`, formData);
 
   if (response.status !== 201) {
     throw new Error(`Failed to add Destination: ${response.data}`);
@@ -82,7 +82,7 @@ export const updateDestination = async (
     }
   });
 
-  const response = await api.put(`${base_url}destinations/${id}`, formData);
+  const response = await api.put(`/destinations/${id}`, formData);
 
   if (response.status !== 200) {
     throw new Error('Failed to update Destination');
@@ -93,7 +93,7 @@ export const updateDestination = async (
 
 // Deletes an Destination from the API
 export const deleteDestination = async (id: number): Promise<void> => {
-  const response = await api.delete(`${base_url}destinations/${id}`);
+  const response = await api.delete(`/destinations/${id}`);
 
   if (response.status !== 200) {
     throw new Error('Failed to delete Destination');
@@ -102,7 +102,7 @@ export const deleteDestination = async (id: number): Promise<void> => {
 
 export const publishDestination = async(id: number, published: { published: string }): Promise<Destination> => {
     const data = JSON.stringify(published);
-    const response = await api.post(`${base_url}destinations/published/${id}`,data,{
+    const response = await api.post(`/destinations/published/${id}`,data,{
       headers:{
         "Content-Type":"application/json",
       }

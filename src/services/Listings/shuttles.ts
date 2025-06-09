@@ -22,7 +22,7 @@ export const getShuttlesWithPagination = async (
   page: number = 1,
   limit: number = 10
 ): Promise<{ shuttles: Shuttle[]; pagination: { page: number; limit: number; totalPages: number; totalRecords: number } }> => {
-  const response = await api.get(`${base_url}shuttles/?page=${page}&limit=${limit}`);
+  const response = await api.get(`/shuttles/?page=${page}&limit=${limit}`);
   if (response.status !== 200) {
     throw new Error("Failed to fetch shuttles with pagination");
   }
@@ -34,7 +34,7 @@ export const getShuttlesWithPagination = async (
 }
 
 export const getShuttles = async (): Promise<Shuttle[]> => {
-    const response = await api(`${base_url}shuttles/`);
+    const response = await api(`/shuttles/`);
     if (response.status !== 200) {
         throw new Error("Failed to fetch shuttles");
     }
@@ -58,7 +58,7 @@ export const addShuttle = async (shuttle: Omit<Shuttle, "id">): Promise<Shuttle>
         }
     });
 
-    const response = await api.post(`${base_url}shuttles/`, formData);
+    const response = await api.post(`/shuttles/`, formData);
 
     if (response.status !== 201) {
         throw new Error("Failed to add shuttle");
@@ -83,7 +83,7 @@ export const updateShuttle = async (id: number, shuttle: Omit<Shuttle, "id">): P
         }
     });
 
-    const response = await api.put(`${base_url}shuttles/${id}/`, formData);
+    const response = await api.put(`/shuttles/${id}/`, formData);
 
     if (response.status !== 200) {
         throw new Error("Failed to update shuttle");
@@ -92,7 +92,7 @@ export const updateShuttle = async (id: number, shuttle: Omit<Shuttle, "id">): P
 };
 
 export const deleteShuttle = async (id: number): Promise<void> => {
-    const response = await api.delete(`${base_url}shuttles/${id}/`);
+    const response = await api.delete(`/shuttles/${id}/`);
 
     if (response.status !== 200) {
         throw new Error("Failed to delete shuttle");
@@ -101,7 +101,7 @@ export const deleteShuttle = async (id: number): Promise<void> => {
 
 export const publishShuttle = async(id: number, published: { published: string }): Promise<Shuttle> => {
     const data = JSON.stringify(published);
-    const response = await api.post(`${base_url}shuttles/published/${id}`,data,{
+    const response = await api.post(`/shuttles/published/${id}`,data,{
         headers:{
             "Content-Type":"application/json"
         }

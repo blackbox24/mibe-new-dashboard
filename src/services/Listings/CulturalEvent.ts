@@ -2,10 +2,11 @@ import { Key } from "react";
 import { api, base_url } from "../apiConfig";
 
 export interface CulturalEvent {
+  id: number;
   title: string;
   description: string;
   destination: string;
-  event_type: "free" | "paid";
+  type: "free" | "paid";
   image_url: File | string | null;
   price: number;
   published?: string;
@@ -13,7 +14,7 @@ export interface CulturalEvent {
 
 // Fetches a list of Cultural Event from the API
 export const getStory = async (): Promise<CulturalEvent[]> => {
-  const response = await api(`${base_url}cultural-events/`);
+  const response = await api(`/cultural-events/`);
   if (response.status !== 200) {
     throw new Error('Failed to fetch cultural event');
   }
@@ -29,13 +30,13 @@ export const getCulturalEventWithPagination = async (page: number = 1, limit: nu
     totalRecords: number;
   };
 }> => {
-  const response = await api.get(`${base_url}cultural-events/paginated/?page=${page}&limit=${limit}`);
+  const response = await api.get(`/cultural-events/paginated/?page=${page}&limit=${limit}`);
   if (response.status !== 200) {
     throw new Error('Failed to fetch cultural Event with pagination');
   }
   const data = await response.data;
   return {
-    culturalEvent: data.culturalEvent,
+    culturalEvent: data.events,
     pagination: data.pagination,
   };
 }
@@ -56,7 +57,7 @@ export const addCulturalEvent = async (
     }
   });
 
-  const response = await api.post(`${base_url}cultural-events/`, formData);
+  const response = await api.post(`/cultural-events/`, formData);
 
   if (response.status !== 201) {
     throw new Error('Failed to add cultural event');
@@ -82,7 +83,7 @@ export const updateCulturalEvent = async (
     }
   });
 
-  const response = await api.put(`${base_url}cultural-events/${id}`, formData);
+  const response = await api.put(`/cultural-events/${id}`, formData);
 
   if (response.status !== 200) {
     throw new Error('Failed to update cultural event');
@@ -93,7 +94,7 @@ export const updateCulturalEvent = async (
 
 // Deletes an CulturalEvent from the API
 export const deleteCulturalEvent = async (id: number): Promise<void> => {
-  const response = await api.delete(`${base_url}cultural-events/${id}`);
+  const response = await api.delete(`/cultural-events/${id}`);
 
   if (response.status !== 200) {
     throw new Error('Failed to delete cultural event');
@@ -102,7 +103,8 @@ export const deleteCulturalEvent = async (id: number): Promise<void> => {
 
 export const publishCulturalEvent = async(id: number, published: { published: string }): Promise<CulturalEvent> => {
     const data = JSON.stringify(published);
-    const response = await api.post(`${base_url}cultural-events/published/${id}`,data,{
+    console.log(published);
+    const response = await api.post(`/cultural-events/publish/${id}`,data,{
         headers:{
             "Content-Type":"application/json"
         }
