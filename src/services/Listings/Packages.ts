@@ -13,6 +13,13 @@ export interface Package {
     rating?: number; // Optional, e.g., 4.5
     featured?: boolean | string; // Optional, true if the package is featured
     status: number; // Status of the package (e.g., active or inactive)
+    discount_price?: number | null;
+    includes: string;
+    excludes: string;
+    itinerary: string | null; 
+    max_people: number | null;
+    start_date: Date | null;
+    end_date: Date | null; 
     destination_id?: number | string; // Optional, ID of the destination associated with the package
 }
 

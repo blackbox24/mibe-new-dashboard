@@ -144,7 +144,7 @@ const FlightsPage = () => {
     try {
       // Add new flight
       const newFlight = await addFlight(values);
-      if(!newFlight || !newFlight.id){
+      if(!newFlight){
         toast.error('Failed to save flight');
       }
 
